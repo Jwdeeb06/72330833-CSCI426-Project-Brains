@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import "../styles/AddCourse.css";
 
 const AddCourse = () => {
+  // store all added courses
   const [courses, setCourses] = useState([]);
+
+  // form states
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("Programming");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
 
+  // handle uploaded image and show preview
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -18,6 +22,7 @@ const AddCourse = () => {
     }
   };
 
+  // add new course to list
   const handleAddCourse = () => {
     if (name && price && category && description && image) {
       const newCourse = {
@@ -29,6 +34,8 @@ const AddCourse = () => {
         image,
       };
       setCourses([...courses, newCourse]);
+
+      // clear inputs after adding
       setName("");
       setPrice("");
       setCategory("Programming");
@@ -39,6 +46,7 @@ const AddCourse = () => {
     }
   };
 
+  // remove a course by id
   const handleRemove = (id) => {
     setCourses(courses.filter((course) => course.id !== id));
   };
@@ -47,6 +55,7 @@ const AddCourse = () => {
     <div className="add-course-page">
       <h1>Add Course</h1>
 
+      {/* input form */}
       <div className="add-course-form">
         <input
           type="text"
@@ -88,6 +97,7 @@ const AddCourse = () => {
         <button onClick={handleAddCourse}>Add Course</button>
       </div>
 
+      {/* table of added courses */}
       <table className="course-table">
         <thead>
           <tr>
@@ -103,14 +113,21 @@ const AddCourse = () => {
           {courses.map((course) => (
             <tr key={course.id}>
               <td>
-                <img src={course.image} alt={course.name} className="table-img" />
+                <img
+                  src={course.image}
+                  alt={course.name}
+                  className="table-img"
+                />
               </td>
               <td>{course.name}</td>
               <td>${course.price}</td>
               <td>{course.category}</td>
               <td>{course.description}</td>
               <td>
-                <button className="remove-btn" onClick={() => handleRemove(course.id)}>
+                <button
+                  className="remove-btn"
+                  onClick={() => handleRemove(course.id)}
+                >
                   Remove
                 </button>
               </td>

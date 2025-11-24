@@ -12,7 +12,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import { AuthProvider, useAuth } from "./components/AuthContext";
 import { HashRouter  as Router, Routes, Route, Navigate } from "react-router-dom";
 
-//  Protected route component
+//  Protected route for only admin access
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
   return user ? children : <Navigate to="/login" />;

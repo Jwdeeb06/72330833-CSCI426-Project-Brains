@@ -6,9 +6,11 @@ import ReorderIcon from "@mui/icons-material/Reorder";
 import { useAuth } from "../components/AuthContext";
 
 const NavBar = () => {
+//state for the defualt menu 
   const [menuOpen, setMenuOpen] = useState(false);
+// logout in the admin navbar
   const { user, logout } = useAuth();
-
+//menu open and close 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
 

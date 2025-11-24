@@ -1,7 +1,8 @@
 import React from "react";
 import "../styles/Messages.css";
 
-function Messages() {
+const Messages=()=> {
+  //satic data
   const messages = [
     {
       id: 1,
@@ -55,7 +56,7 @@ function Messages() {
       </div>
     </div>
   );
-}
+};
 
 export default Messages;
 

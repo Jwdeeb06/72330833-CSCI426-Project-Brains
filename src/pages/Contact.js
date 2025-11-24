@@ -2,34 +2,40 @@ import React, { useState } from "react";
 import poster from "../assets/poster.png";
 import "../styles/Contact.css";
 
-const Contact=()=> {
+const Contact = () => {
+// store form data in a single object
   const [state, setState] = useState({ fname: "", email: "", message: "" });
 
+// update input values when user types
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
 
+// handle submit event
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Message Sent!\n\n" + JSON.stringify(state, null, 2));
+    alert("Message Sent!\n\n" + JSON.stringify(state, null, 2)); // show form data in alert
   };
 
   return (
     <div className="contact">
-      {/* Left side - background image */}
+  {/* background image section */}
       <div
         className="leftSide"
         style={{ backgroundImage: `url(${poster})` }}
       ></div>
 
-      {/* Right side - form */}
+  {/* form section */}
       <div className="rightSide">
         <div className="contact-header">
           <h1>Get in Touch</h1>
-          <p>We’d love to hear from you! Fill out the form and we’ll respond soon.</p>
+          <p>
+            We’d love to hear from you! Fill out the form and we’ll respond soon.
+          </p>
         </div>
 
+        {/* contact form */}
         <form id="contact-form" onSubmit={handleSubmit}>
           <label htmlFor="fname">Full Name</label>
           <input
@@ -64,6 +70,7 @@ const Contact=()=> {
           <button type="submit">Send Message</button>
         </form>
 
+        {/* contact info */}
         <div className="contact-info">
           <p>📍 Chaqra, Lebanon</p>
           <p>📞 +961 03 532 430</p>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../components/AuthContext";
 import "../styles/AdminDashboard.css";
-
+//used under for the welcome of the user to get the name 
 function AdminDashboard() {
   const { user } = useAuth();
 

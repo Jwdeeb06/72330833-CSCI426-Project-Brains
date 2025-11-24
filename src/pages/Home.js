@@ -4,9 +4,10 @@ import poster from "../assets/poster.png";
 import logo from "../assets/logo.png";
 import "../styles/Home.css";
 
-const Home =()=> {
-  const navigate = useNavigate();
+const Home = () => {
+  const navigate = useNavigate(); // for navigating between pages
 
+  // course categories with colors
   const categories = [
     { name: "Programming", color: "#ffcc00" },
     { name: "AI", color: "#00bcd4" },
@@ -14,13 +15,14 @@ const Home =()=> {
     { name: "Design", color: "#8e44ad" },
   ];
 
+  // useeffect navigate to menu page and send selected category
   const handleCategoryClick = (category) => {
     navigate("/menu", { state: { category } });
   };
 
   return (
     <div className="homepage-container">
-      {/* Hero */}
+      {/* main image section */}
       <div className="hero-section">
         <img src={poster} alt="poster" className="hero-poster" />
         <div className="hero-overlay">
@@ -28,7 +30,7 @@ const Home =()=> {
         </div>
       </div>
 
-      {/* Content */}
+      {/* main content */}
       <div className="home-content">
         <section className="home-section intro">
           <h2>Explore Our Courses by Category</h2>
@@ -39,7 +41,7 @@ const Home =()=> {
           </p>
         </section>
 
-        {/* 🔹 Categories Section */}
+        {/* category cards */}
         <section className="categories-section">
           <div className="category-grid">
             {categories.map((cat, i) => (
