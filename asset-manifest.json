@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/72330833-CSCI426-Project-Brains/static/css/main.5905b465.css",
-    "main.js": "/72330833-CSCI426-Project-Brains/static/js/main.9f0b0326.js",
+    "main.js": "/72330833-CSCI426-Project-Brains/static/js/main.5f0f1777.js",
     "static/js/787.28cb0dcd.chunk.js": "/72330833-CSCI426-Project-Brains/static/js/787.28cb0dcd.chunk.js",
     "static/media/Brains login.jpg": "/72330833-CSCI426-Project-Brains/static/media/Brains login.ce4c886afdbaf89aad0f.jpg",
     "static/media/poster.png": "/72330833-CSCI426-Project-Brains/static/media/poster.bda16ce82dd8941d68d6.png",
@@ -9,11 +9,11 @@
     "static/media/logo.png": "/72330833-CSCI426-Project-Brains/static/media/logo.57fa566599e114ff27be.png",
     "index.html": "/72330833-CSCI426-Project-Brains/index.html",
     "main.5905b465.css.map": "/72330833-CSCI426-Project-Brains/static/css/main.5905b465.css.map",
-    "main.9f0b0326.js.map": "/72330833-CSCI426-Project-Brains/static/js/main.9f0b0326.js.map",
+    "main.5f0f1777.js.map": "/72330833-CSCI426-Project-Brains/static/js/main.5f0f1777.js.map",
     "787.28cb0dcd.chunk.js.map": "/72330833-CSCI426-Project-Brains/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5905b465.css",
-    "static/js/main.9f0b0326.js"
+    "static/js/main.5f0f1777.js"
   ]
 }
