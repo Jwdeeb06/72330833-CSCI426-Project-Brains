@@ -6,7 +6,7 @@ import "../styles/Menu.css";
 
 const Menu = () => {
   const location = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState("AI");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     if (location.state?.category) {
