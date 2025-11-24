@@ -10,7 +10,7 @@ import AddCourse from "./pages/AddCourse";
 import Messages from "./pages/Messages";
 import AdminDashboard from "./pages/AdminDashboard";
 import { AuthProvider, useAuth } from "./components/AuthContext";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter  as Router, Routes, Route, Navigate } from "react-router-dom";
 
 //  Protected route component
 function ProtectedRoute({ children }) {
