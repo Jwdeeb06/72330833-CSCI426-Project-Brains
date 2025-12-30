@@ -63,7 +63,8 @@
   resize: none;
 }
 
-.add-course-form button {
+/* ONLY the main submit button */
+.add-course-form > button {
   width: 100%;
   background: #ffcc00;
   color: #001a33;
@@ -74,6 +75,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
+.add-course-form > button:hover {
+  background: #ffd84a;
+  transform: scale(1.03);
+}
+
 
 .add-course-form button:hover {
   background: #ffd84a;
@@ -165,4 +172,122 @@
   border-color: #ffcc00;
   box-shadow: 0 0 6px rgba(255, 204, 0, 0.4);
   outline: none;
+}
+/* Category Manager Container */
+.category-manager {
+  margin-top: 12px;
+  padding: 16px;
+  background: #0f2a3f;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Title */
+.category-manager h4 {
+  margin-bottom: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Add Category Row */
+.add-cat {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.add-cat input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #143b57;
+  color: #fff;
+  outline: none;
+}
+
+.add-cat input::placeholder {
+  color: #9fb3c8;
+}
+
+.add-cat button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #ffd23f;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-cat button:hover {
+  background: #ffcc1a;
+}
+
+/* Category List */
+.cat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Category Item */
+.cat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  background: #143b57;
+  border-radius: 10px;
+  color: #fff;
+  transition: background 0.2s ease;
+}
+
+.cat-item:hover {
+  background: #1b4f72;
+}
+
+/* Category Name */
+.cat-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cat-delete {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ff1100;
+  border: none;
+  border-radius: 6px;
+
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.cat-delete:hover {
+  background: #ffb700;
+}
+
+.cat-item {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cat-name {
+  flex: 1;
 }

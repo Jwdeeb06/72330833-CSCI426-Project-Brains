@@ -3,22 +3,32 @@ import axios from "axios";
 import "../styles/AddUser.css";
 
 const AddUser = () => {
-  const [users, setUsers] = useState([]);
+  const [activeusers, setactiveUsers] = useState([]);
+  const [Inactiveusers, setInactiveUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const API_BASE = "http://localhost:5000/api";
 
     // Fetch users from backend
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchActiveUsers = async () => {
       try {
         const res = await axios.get(`${API_BASE}/users`);
-        setUsers(res.data);
+        setactiveUsers(res.data);
       } catch (err) {
         console.error("Failed to fetch users:", err);
       }
     };
-    fetchUsers();
+    const fetchInactiveUsers = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/users/in`);
+        setInactiveUsers(res.data);
+      } catch (err) {
+        console.error("Failed to fetch inactive users:", err);
+      }
+    };
+    fetchActiveUsers();
+    fetchInactiveUsers();
   }, []);
 
   // Add new user
@@ -31,7 +41,7 @@ const AddUser = () => {
       const res = await axios.post(`${API_BASE}/users/add`, { username, password });
       alert(res.data.message);
       // Update frontend list
-      setUsers([...users, { id: res.data.insertId, username, password, is_active: 1 }]);
+      setactiveUsers([...activeusers, { id: res.data.insertId, username, password, is_active: 1 }]);
       setUsername("");
       setPassword("");
     } catch (err) {
@@ -41,23 +51,27 @@ const AddUser = () => {
   };
 
   // Toggle user active status in database
-  const toggleActive = async (id, currentStatus) => {
-    try {
-      await axios.delete(`${API_BASE}/users/delete/${id}`, {
-        is_active: currentStatus ? 0 : 1, // flip current status
-      });
+const toggleUser = async (user, isActiveList) => {
+  try {
+    await axios.put(`${API_BASE}/users/toggle/${user.id}`, {
+      is_active: !user.is_active,
+    });
 
-      // Update frontend state
-      setUsers(
-        users.map((user) =>
-          user.id === id ? { ...user, is_active: !currentStatus } : user
-        )
-      );
-    } catch (err) {
-      console.error(err);
-      alert("❌ Failed to update user status.");
+    if (isActiveList) {
+      // move from active → inactive
+      setactiveUsers(activeusers.filter(u => u.id !== user.id));
+      setInactiveUsers([...Inactiveusers, { ...user, is_active: 0 }]);
+    } else {
+      // move from inactive → active
+      setInactiveUsers(Inactiveusers.filter(u => u.id !== user.id));
+      setactiveUsers([...activeusers, { ...user, is_active: 1 }]);
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to update user status");
+  }
+};
+
 
   return (
     <div className="add-user-page">
@@ -78,7 +92,7 @@ const AddUser = () => {
         />
         <button onClick={handleAddUser}>Add User</button>
       </div>
-
+      <h2>active users</h2>
       <table className="user-table">
         <thead>
           <tr>
@@ -89,17 +103,47 @@ const AddUser = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.username}</td>
-              <td>{user.password}</td>
-              <td>{user.is_active ? "Active" : "Inactive"}</td>
+          {activeusers.map((activeusers) => (
+            <tr key={activeusers.id}>
+              <td>{activeusers.username}</td>
+              <td>{activeusers.password}</td>
+              <td>{activeusers.is_active ? "Active" : "Inactive"}</td>
               <td>
                 <button
-                  className={`status-btn ${user.is_active ? "deactivate" : "activate"}`}
-                  onClick={() => toggleActive(user.id, user.is_active)}
+                  className={`status-btn ${activeusers.is_active ? "deactivate" : "activate"}`}
+                  onClick={() => toggleUser(activeusers, true)}
                 >
-                  {user.is_active ? "Deactivate" : "Activate"}
+                  {activeusers.is_active ? "Deactivate" : "Activate"}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <br></br>
+      <h2>inactive users</h2>
+      <table className="user-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Inactiveusers.map((Inactiveusers) => (
+            <tr key={Inactiveusers.id}>
+              <td>{Inactiveusers.username}</td>
+              <td>{Inactiveusers.password}</td>
+              <td>{Inactiveusers.is_active ? "Active" : "Inactive"}</td>
+              <td>
+                <button
+                  className={`status-btn ${Inactiveusers.is_active ? "deactivate" : "activate"}`}
+                  onClick={() => toggleUser(Inactiveusers, false)}
+
+                >
+                  {Inactiveusers.is_active ? "Deactivate" : "Activate"}
                 </button>
               </td>
             </tr>

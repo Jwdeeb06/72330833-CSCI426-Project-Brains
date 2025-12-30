@@ -23,9 +23,9 @@ function AdminDashboard() {
     };
 
     // fetch users count
-    const fetchUsers = async () => {
+    const fetchRegistrations = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/users`);
+        const res = await axios.get(`${API_BASE}/registrations`);
         setUsersCount(res.data.length);
       } catch (err) {
         console.error(err);
@@ -43,7 +43,7 @@ function AdminDashboard() {
     };
 
     fetchCourses();
-    fetchUsers();
+    fetchRegistrations();
     fetchMessages();
   }, []);
 

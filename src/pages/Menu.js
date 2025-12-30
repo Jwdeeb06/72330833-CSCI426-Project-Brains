@@ -9,15 +9,18 @@ const Menu = () => {
   const location = useLocation();
 
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
 // use effect for the home and menu cat btn
   // 1️⃣ get category from Home page
   useEffect(() => {
     if (location.state?.category) {
-      setSelectedCategory(location.state.category);
+    setSelectedCategory(location.state.category);
+    } else {
+    setSelectedCategory("ALL");
     }
+
   }, [location.state]);
 
   // 2️⃣ fetch categories
@@ -30,40 +33,48 @@ const Menu = () => {
 
   // 3️⃣ fetch courses (all or by category)
   useEffect(() => {
-    if (!selectedCategory) return;
+    let url = "http://localhost:5000/api/courses";
 
     // find category id
+if (selectedCategory !== "ALL") {
     const category = categories.find((c) => c.name === selectedCategory);
+    if (category) {
+      url = `http://localhost:5000/api/courses/by-category/${category.id}`;
+    }
+  }
 
-    const url = category
-      ? `http://localhost:5000/api/courses/by-category/${category.id}`
-      : "http://localhost:5000/api/courses";
-
-    axios
-      .get(url)
-      .then((res) => setCourses(res.data))
-      .catch((err) => console.error(err));
-  }, [selectedCategory, categories]);
+  axios
+    .get(url)
+    .then((res) => setCourses(res.data))
+    .catch((err) => console.error(err));
+}, [selectedCategory, categories]);
 
 
   return (
     <div className="menu">
       <h1 className="menuTitle">Our Courses</h1>
 
-      {/* category filter */}
       <div className="filter-bar">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            className={`filter-btn ${
-              selectedCategory === cat.name ? "active" : ""
-            }`}
-            onClick={() => setSelectedCategory(cat.name)}
-          >
-            {cat.name}
-          </button>
-        ))}
-      </div>
+  <button
+    className={`filter-btn ${selectedCategory === "ALL" ? "active" : ""}`}
+    onClick={() => setSelectedCategory("ALL")}
+  >
+    All
+  </button>
+
+  {categories.map((cat) => (
+    <button
+      key={cat.id}
+      className={`filter-btn ${
+        selectedCategory === cat.name ? "active" : ""
+      }`}
+      onClick={() => setSelectedCategory(cat.name)}
+    >
+      {cat.name}
+    </button>
+  ))}
+</div>
+
 
       {/* courses */}
       <div className="menuList">
