@@ -11,15 +11,15 @@ function LoginForm() {
   const navigate = useNavigate(); // used for navigation after login
 
   // check credentials when form submitted
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (login(username, password)) {
+    const success = await login(username, password); // wait for backend
+    if (success) {
       navigate("/AdminDashboard"); // redirect to admin page if success
     } else {
       alert('Invalid credentials!');
     }
   };
-
   return (
     <form onSubmit={handleSubmit}>
       <h2>Admin Login</h2>

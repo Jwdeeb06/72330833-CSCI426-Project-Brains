@@ -13,11 +13,25 @@ const RegisterCourse = ({ course, onClose }) => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`✅ Registration successful!\n\n${JSON.stringify(form, null, 2)}`);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    await axios.post("http://localhost:5000/api/registrations/add", {
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      course_id: course.id,
+    });
+
+    alert("✅ Registration submitted successfully!");
     onClose();
-  };
+  } catch (error) {
+    console.error(error);
+    alert("❌ Something went wrong");
+  }
+};
+
   return (
     <div className="register-overlay">
       <div className="register-box">

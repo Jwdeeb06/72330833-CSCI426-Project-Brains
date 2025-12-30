@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import poster from "../assets/poster.png";
 import "../styles/Contact.css";
+import axios from "axios";
 
 const Contact = () => {
 // store form data in a single object
@@ -13,10 +14,24 @@ const Contact = () => {
   };
 
 // handle submit event
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Message Sent!\n\n" + JSON.stringify(state, null, 2)); // show form data in alert
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    await axios.post("http://localhost:5000/api/messages/add", {
+      name: state.fname,
+      email: state.email,
+      content: state.message,
+    });
+
+    alert("✅ Message sent successfully!");
+    setState({ fname: "", email: "", message: "" }); // clear form
+  } catch (error) {
+    console.error(error);
+    alert("❌ Failed to send message");
+  }
+};
+
 
   return (
     <div className="contact">

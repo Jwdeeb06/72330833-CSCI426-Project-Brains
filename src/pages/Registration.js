@@ -1,20 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/Registrations.css";
 
-
-
 const Registrations = () => {
-  const [registrations, setRegistrations] = useState([
-    { id: 1, name: "Ali Ahmad", email: "ali@gmail.com", phone: "123456789", status: "Pending" },
-    { id: 2, name: "Sara Nader", email: "sara@gmail.com", phone: "987654321", status: "Pending" },
-  ]);
+  const [registrations, setRegistrations] = useState([]);
+  const API_BASE = "http://localhost:5000/api";
 
-  const handleAction = (id, action) => {
-    setRegistrations(
-      registrations.map((r) =>
-        r.id === id ? { ...r, status: action === "approve" ? "Approved" : "Denied" } : r
-      )
-    );
+  // fetch registrations from backend
+  useEffect(() => {
+    const fetchRegistrations = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/registrations`);
+        setRegistrations(res.data);
+      } catch (err) {
+        console.error(err);
+        alert("Failed to load registrations");
+      }
+    };
+    fetchRegistrations();
+  }, []);
+
+  // approve a registration
+  const handleApprove = async (id) => {
+    try {
+      await axios.put(`${API_BASE}/registrations/approve/${id}`);
+      setRegistrations(
+        registrations.map((r) =>
+          r.id === id ? { ...r, is_approved: 1 } : r
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to approve registration");
+    }
+  };
+
+  // deny/delete a registration
+  const handleDeny = async (id) => {
+    if (!window.confirm("Are you sure you want to deny/delete this registration?")) return;
+
+    try {
+      await axios.delete(`${API_BASE}/registrations/delete/${id}`);
+      setRegistrations(registrations.filter((r) => r.id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete registration");
+    }
   };
 
   return (
@@ -37,20 +68,17 @@ const Registrations = () => {
               <td>{r.name}</td>
               <td>{r.email}</td>
               <td>{r.phone}</td>
-              <td className={`status ${r.status.toLowerCase()}`}>{r.status}</td>
+              <td className={`status ${r.is_approved ? "approved" : "pending"}`}>
+                {r.is_approved ? "Approved" : "Pending"}
+              </td>
               <td>
-                <button
-                  className="approve-btn"
-                  onClick={() => handleAction(r.id, "approve")}
-                >
-                  Approve
-                </button>
-                <button
-                  className="deny-btn"
-                  onClick={() => handleAction(r.id, "deny")}
-                >
-                  Deny
-                </button>
+                {!r.is_approved && (
+                  <>
+                    <button className="approve-btn" onClick={() => handleApprove(r.id)}>Approve</button>
+                    <button className="deny-btn" onClick={() => handleDeny(r.id)}>Deny</button>
+                  </>
+                )}
+                {r.is_approved && <span>✔️</span>}
               </td>
             </tr>
           ))}

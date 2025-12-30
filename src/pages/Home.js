@@ -1,23 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import poster from "../assets/poster.png";
 import logo from "../assets/logo.png";
 import "../styles/Home.css";
+import axios from "axios";
 
 const Home = () => {
   const navigate = useNavigate(); // for navigating between pages
 
   // course categories with colors
-  const categories = [
-    { name: "Programming", color: "#ffcc00" },
-    { name: "AI", color: "#00bcd4" },
-    { name: "Security", color: "#ff4444" },
-    { name: "Design", color: "#8e44ad" },
-  ];
+  // state to store categories from backend
+  const [categories, setCategories] = useState([]);
+  // fetch categories when page loads
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/categories");
+        setCategories(response.data);
+      } catch (error) {
+      console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
 
   // useeffect navigate to menu page and send selected category
-  const handleCategoryClick = (category) => {
-    navigate("/menu", { state: { category } });
+    const handleCategoryClick = (categoryName) => {
+    navigate("/menu", { state: { category: categoryName } });
   };
 
   return (
